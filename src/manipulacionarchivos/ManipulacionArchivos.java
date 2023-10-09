@@ -37,13 +37,20 @@ public class ManipulacionArchivos {
         return numLineas;
     }
 
-    public static void leerArchivo(String name){
+    public static String[] fileToStringArray(String name){
         File archivo; // Apunta a un archivo físico del dd
         FileReader reader; // Llave con permiso de solo lectura
         BufferedReader bufer; // Recupera info. del archivo
         String linea;
+        String[] array = null;
+        int t;
+        int i =0;
         
         try{
+            // Obtenemos el tamaño del archivo para contruit arreglos
+            t = contarLineasArchivo(name);
+            // Con el tramaño del archivo, contruimos el arreglo
+            array = new String[t];
             // Crear un apuntador al archivo físico
             archivo = new File("C:\\archivos\\" + name + ".txt");
             // Abrir el archivo para Lectura
@@ -52,12 +59,15 @@ public class ManipulacionArchivos {
             bufer = new BufferedReader(reader);
             // Lectura del contenido del archivo
             while( (linea = bufer.readLine())!= null ){
-                System.out.println("Linea lida: "+linea);
+                //System.out.println("Linea lida: "+linea);
+                array[i] = linea;
+                i++;
             }
             reader.close();
         } catch(Exception e ){
             System.out.println("Error al leer el archivo: " + e.toString());
         }
+        return array;
     }
 
     /**
@@ -71,9 +81,11 @@ public class ManipulacionArchivos {
         System.out.println("Lectura de un archivo de texto");
         System.out.println("Escribe el nombre del archivo a leer: ");
         fileName = bufer.readLine();
-        leerArchivo(fileName);
+        fileToStringArray(fileName);
         t = contarLineasArchivo(fileName);
         System.out.println("Lineas en el archivo "+ fileName +": "+ t);
+        
+        
     }
 
 }
