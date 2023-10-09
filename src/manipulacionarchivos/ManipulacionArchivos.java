@@ -15,6 +15,27 @@ import java.io.InputStreamReader;
  * @author Dell
  */
 public class ManipulacionArchivos {
+    
+    public static int contarLineasArchivo(String name){
+        File archivo;
+        FileReader reader;
+        BufferedReader bufer;
+        String linea;
+        int numLineas = 0;
+        try{
+            archivo = new File("C:\\archivos\\" + name + ".txt");
+            reader = new FileReader(archivo);
+            bufer = new BufferedReader(reader);
+            // Contar las lineas que contiene el archivo 👍
+            while( (linea = bufer.readLine())!= null ){
+                numLineas++;
+            }
+            reader.close();
+        } catch(Exception e ){
+            System.out.println("Error al leer el archivo: " + e.toString());
+        }
+        return numLineas;
+    }
 
     public static void leerArchivo(String name){
         File archivo; // Apunta a un archivo físico del dd
@@ -46,10 +67,13 @@ public class ManipulacionArchivos {
     public static void main(String[] args) throws IOException {
         BufferedReader bufer = new BufferedReader(new InputStreamReader(System.in));
         String fileName;
+        int t;
         System.out.println("Lectura de un archivo de texto");
         System.out.println("Escribe el nombre del archivo a leer: ");
         fileName = bufer.readLine();
         leerArchivo(fileName);
+        t = contarLineasArchivo(fileName);
+        System.out.println("Lineas en el archivo "+ fileName +": "+ t);
     }
 
 }
