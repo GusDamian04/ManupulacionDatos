@@ -68,6 +68,32 @@ public class ManipulacionArchivos {
         }
         return array;
     }
+    
+    public static int[] fileToIntArray(String name){
+        File archivo; // Apunta a un archivo físico del dd
+        FileReader reader; // Llave con permiso de solo lectura
+        BufferedReader bufer; // Recupera info. del archivo
+        String linea;
+        int[] array = null;
+        int t;
+        int i =0;
+        
+        try{
+            t = countFileLines(name);
+            array = new int[t];
+            archivo = new File("C:\\archivos\\" + name + ".txt");
+            reader = new FileReader(archivo);
+            bufer = new BufferedReader(reader);
+            while( (linea = bufer.readLine())!= null ){
+                array[i] = Integer.parseInt(linea);
+                i++;
+            }
+            reader.close();
+        } catch(Exception e ){
+            System.out.println("Error al leer el archivo: " + e.toString());
+        }
+        return array;
+    }
 
     /**
      * @param args the command line arguments
@@ -77,6 +103,7 @@ public class ManipulacionArchivos {
         BufferedReader bufer = new BufferedReader(new InputStreamReader(System.in));
         String fileName;
         String[] textos;
+        int[] numeros;
         
         System.out.println("Lectura de un archivo de texto");
         System.out.println("Escribe el nombre del archivo a leer: ");
@@ -85,6 +112,14 @@ public class ManipulacionArchivos {
         System.out.println("Contenido del arreglo de textos: ");
         for(String unTexto : textos){
             System.out.println(unTexto);
+        }
+        System.out.println("Lectura de datos numericos 👍");
+        System.out.println("Escribe el nombre del archivo: ");
+        fileName = bufer.readLine();
+        numeros = fileToIntArray(fileName);
+        System.out.println("Contenido del atteglo de numeros:");
+        for(int unNumero : numeros){
+            System.out.println(unNumero);
         }
     }
 
