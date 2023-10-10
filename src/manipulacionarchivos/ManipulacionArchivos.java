@@ -16,18 +16,17 @@ import java.io.InputStreamReader;
  */
 public class ManipulacionArchivos {
     
-    public static int contarLineasArchivo(String name){
+    public static int countFileLines(String name){
         File archivo;
         FileReader reader;
         BufferedReader bufer;
-        String linea;
         int numLineas = 0;
         try{
             archivo = new File("C:\\archivos\\" + name + ".txt");
             reader = new FileReader(archivo);
             bufer = new BufferedReader(reader);
             // Contar las lineas que contiene el archivo 👍
-            while( (linea = bufer.readLine())!= null ){
+            while( (bufer.readLine())!= null ){
                 numLineas++;
             }
             reader.close();
@@ -48,7 +47,7 @@ public class ManipulacionArchivos {
         
         try{
             // Obtenemos el tamaño del archivo para contruit arreglos
-            t = contarLineasArchivo(name);
+            t = countFileLines(name);
             // Con el tramaño del archivo, contruimos el arreglo
             array = new String[t];
             // Crear un apuntador al archivo físico
@@ -77,15 +76,16 @@ public class ManipulacionArchivos {
     public static void main(String[] args) throws IOException {
         BufferedReader bufer = new BufferedReader(new InputStreamReader(System.in));
         String fileName;
-        int t;
+        String[] textos;
+        
         System.out.println("Lectura de un archivo de texto");
         System.out.println("Escribe el nombre del archivo a leer: ");
         fileName = bufer.readLine();
-        fileToStringArray(fileName);
-        t = contarLineasArchivo(fileName);
-        System.out.println("Lineas en el archivo "+ fileName +": "+ t);
-        
-        
+        textos = fileToStringArray(fileName);
+        System.out.println("Contenido del arreglo de textos: ");
+        for(String unTexto : textos){
+            System.out.println(unTexto);
+        }
     }
 
 }
