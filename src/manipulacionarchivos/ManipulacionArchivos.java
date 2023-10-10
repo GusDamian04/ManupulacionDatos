@@ -7,8 +7,10 @@ package manipulacionarchivos;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 /**
  *
@@ -94,7 +96,35 @@ public class ManipulacionArchivos {
         }
         return array;
     }
-
+    
+    public static void writeFile(String name) throws IOException{
+        // Un apuntador a un fisico del dd
+        FileWriter archivo;
+        // La llave de acceso para escribir el archivo
+        PrintWriter writer;
+        // Para escribir de teclado al dd
+        BufferedReader bufer = new BufferedReader(new InputStreamReader(System.in));
+        String entrada;
+        char respuesta;
+        
+        try{
+            //apuntador al archivo que se va a crear
+            archivo = new FileWriter("C:\\archivos\\" + name +".txt");
+            writer = new PrintWriter(archivo);
+            do {
+                System.out.println("Escribe algo para guardar en el archivo: ");
+                entrada = bufer.readLine();
+                //Guardar lo recuperado desde telcado al archivo
+                writer.println(entrada);
+                System.out.println("Escribe x para parar, cualquier otra tecla para continuar: ");
+                entrada = bufer.readLine();
+                respuesta = entrada.charAt(0);
+            }while(respuesta != 'x');
+            archivo.close();
+        } catch( Exception e ){
+            System.out.println("Error al escribir al archivo "+ e.toString());
+        }
+    }
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
@@ -121,6 +151,11 @@ public class ManipulacionArchivos {
         for(int unNumero : numeros){
             System.out.println(unNumero);
         }
+        
+        System.out.println("Crear un archivo de texto");
+        System.out.println("Escribe el nombre del archivo a crear: ");
+        fileName = bufer.readLine();
+        writeFile(fileName);
     }
 
 }
