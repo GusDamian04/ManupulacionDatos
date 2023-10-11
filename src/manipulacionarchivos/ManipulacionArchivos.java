@@ -97,7 +97,67 @@ public class ManipulacionArchivos {
         return array;
     }
     
-    public static void writeFile(String name) throws IOException{
+        public static double[] fileToDoubleArray(String name) throws IOException {
+        File archivo;
+        FileReader reader;
+        BufferedReader bufer;
+        String linea;
+        double[] array = null;
+        int t;
+        int i = 0;
+
+        try {
+            t = countFileLines(name);
+            array = new double[t];
+
+            archivo = new File("C:\\archivos\\" + name + ".txt");
+            reader = new FileReader(archivo);
+            bufer = new BufferedReader(reader);
+
+            while ((linea = bufer.readLine()) != null) {
+                array[i] = Double.parseDouble(linea);
+                i++;
+            }
+
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Error al leer el archivo" + e.toString());
+        }
+
+        return array;
+    }
+
+    public static boolean[] fileToBooleanArray(String name) throws IOException {
+        File archivo;
+        FileReader reader;
+        BufferedReader bufer;
+        String linea;
+        boolean[] array = null;
+        int t;
+        int i = 0;
+
+        try {
+            t = countFileLines(name);
+            array = new boolean[t];
+
+            archivo = new File("C:\\archivos\\" + name + ".txt");
+            reader = new FileReader(archivo);
+            bufer = new BufferedReader(reader);
+
+            while ((linea = bufer.readLine()) != null) {
+                array[i] = Boolean.parseBoolean(linea);
+                i++;
+            }
+
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Error al leer el archivo" + e.toString());
+        }
+
+        return array;
+    }
+    
+    public static void writeKeyboardtoFile(String name) throws IOException{
         // Un apuntador a un fisico del dd
         FileWriter archivo;
         // La llave de acceso para escribir el archivo
@@ -125,6 +185,25 @@ public class ManipulacionArchivos {
             System.out.println("Error al escribir al archivo "+ e.toString());
         }
     }
+    
+    // Crear un archivo con informacion de un arreglo :)
+    public static void writeArraytoFile(String name, int[] array){
+        FileWriter archivo;
+        PrintWriter writer;
+        
+        try{
+            archivo = new FileWriter("C:\\archivos\\" + name +".txt");
+            writer = new PrintWriter(archivo);
+            // Guaardar el arreglo a un archivo 
+            for(int unDato: array){
+                writer.println(unDato);
+            }
+            archivo.close();
+        } catch( Exception e ){
+            System.out.println("Error al escribir al archivo "+ e.toString());
+        }
+    }
+    
     /**
      * @param args the command line arguments
      * @throws java.io.IOException
@@ -134,6 +213,9 @@ public class ManipulacionArchivos {
         String fileName;
         String[] textos;
         int[] numeros;
+        double[] doubles;
+        boolean[] booleans;
+        int[] numerosX3;
         
         System.out.println("Lectura de un archivo de texto");
         System.out.println("Escribe el nombre del archivo a leer: ");
@@ -151,11 +233,39 @@ public class ManipulacionArchivos {
         for(int unNumero : numeros){
             System.out.println(unNumero);
         }
+        System.out.println("Lectura de datos doubles");
+        System.out.println("Escribe el nombre del archivo");
+        fileName = bufer.readLine();
+        doubles = fileToDoubleArray(fileName);
+        System.out.println("Contenido del arreglo doubles");
+        for (double unDouble : doubles) {
+            System.out.println(unDouble);
+        }
+
+        System.out.println("Lectura de datos booleans");
+        System.out.println("Escribe el nombre del archivo");
+        fileName = bufer.readLine();
+        booleans = fileToBooleanArray(fileName);
+        System.out.println("Contenido del arreglo de valores booleans");
+        for (boolean unBoolean : booleans) {
+            System.out.println(unBoolean);
+        }
         
+        // Crear y lenar el arreglo numerosX3
+        System.out.println("Numeros Por 3");
+        numerosX3 = new int[numeros.length];
+        for (int i = 0;i < numeros.length;i++){
+            numerosX3[i] = numeros[i] * 3;
+            System.out.println("Numeros3["+ i +"] = "+ numerosX3[i]);
+        }
+        System.out.println("Escribe el nombre del archivo de numeros X3");
+        fileName = bufer.readLine();
+        writeArraytoFile(fileName, numerosX3);
+        /*
         System.out.println("Crear un archivo de texto");
         System.out.println("Escribe el nombre del archivo a crear: ");
         fileName = bufer.readLine();
-        writeFile(fileName);
+        writeKeyboardtoFile(fileName);*/
     }
 
 }
